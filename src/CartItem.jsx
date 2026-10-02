@@ -1,12 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {
-  decreaseQuantity,
-  increaseQuantity,
-  removeFromCart,
+  removeItem,
   selectCartCount,
   selectCartItems,
-  selectCartTotal,
+  updateQuantity,
 } from './CartSlice.jsx'
 import { imageUrl } from './data/plants.js'
 
@@ -14,13 +12,19 @@ function CartItem() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const items = useSelector(selectCartItems)
+  const cartItems = useSelector(selectCartItems)
   const totalPlants = useSelector(selectCartCount)
-  const totalCost = useSelector(selectCartTotal)
+
+  const calculateTotalAmount = () => {
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0,
+    )
+  }
 
   const goShopping = () => navigate('/plants')
 
-  if (items.length === 0) {
+  if (cartItems.length === 0) {
     return (
       <main className="page cart-page">
         <div className="page-heading">
@@ -53,12 +57,12 @@ function CartItem() {
         </div>
         <div className="summary-box">
           <span className="summary-label">Total Cost</span>
-          <span className="summary-value">${totalCost}</span>
+          <span className="summary-value">${calculateTotalAmount()}</span>
         </div>
       </div>
 
       <div className="cart-list">
-        {items.map((item) => (
+        {cartItems.map((item) => (
           <div className="cart-item" key={item.id}>
             <img
               className="cart-item-image"
@@ -76,7 +80,9 @@ function CartItem() {
                 type="button"
                 className="qty-btn"
                 aria-label={`Decrease quantity of ${item.name}`}
-                onClick={() => dispatch(decreaseQuantity(item.id))}
+                onClick={() =>
+                  dispatch(updateQuantity({ id: item.id, amount: -1 }))
+                }
               >
                 -
               </button>
@@ -85,7 +91,9 @@ function CartItem() {
                 type="button"
                 className="qty-btn"
                 aria-label={`Increase quantity of ${item.name}`}
-                onClick={() => dispatch(increaseQuantity(item.id))}
+                onClick={() =>
+                  dispatch(updateQuantity({ id: item.id, amount: 1 }))
+                }
               >
                 +
               </button>
@@ -98,7 +106,7 @@ function CartItem() {
             <button
               type="button"
               className="btn btn-delete"
-              onClick={() => dispatch(removeFromCart(item.id))}
+              onClick={() => dispatch(removeItem(item.id))}
             >
               Delete
             </button>

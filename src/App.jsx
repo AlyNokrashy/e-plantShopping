@@ -16,7 +16,7 @@ function LandingPage() {
       }}
     >
       <div className="landing-overlay">
-        <h1 className="landing-title">Paradise Nursery</h1>
+        <h1 className="landing-title">Welcome to Paradise Nursery</h1>
         <p className="landing-tagline">
           Bringing nature home, one plant at a time.
         </p>
