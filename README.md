@@ -31,16 +31,6 @@ Front-End Apps with React" course.
 - React Router (HashRouter, for reliable GitHub Pages hosting)
 - Plain CSS
 
-## Getting started
-
-```bash
-npm install
-npm run dev      # start the local dev server
-npm run build    # create a production build in dist/
-npm run preview  # preview the production build locally
-npm run lint     # run Oxlint
-```
-
 ## Project structure
 
 ```text
@@ -56,23 +46,6 @@ src/
 ├── main.jsx         # app entry (Provider + HashRouter)
 └── data/plants.js   # plant catalogue and image URL helper
 ```
-
-## Redux cart model
-
-```js
-{
-  cart: {
-    items: [
-      { id, name, price, image, category, quantity }
-    ]
-  }
-}
-```
-
-Actions: `addToCart`, `increaseQuantity`, `decreaseQuantity`, `removeFromCart`.
-Cart item count and cost are derived from state via selectors
-(`selectCartCount`, `selectCartTotal`) so the header badge and totals always
-stay in sync.
 
 ## Deployment (GitHub Pages)
 
